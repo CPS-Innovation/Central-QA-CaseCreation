@@ -1,0 +1,53 @@
+meta {
+  name: FindEncryptedDocumentId
+  type: graphql
+  seq: 18
+}
+
+post {
+  url: {{baseURL}}/graphql
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  cms-api-version: 1
+  cms-api-sessionid: {{Token}}
+  Cms-Auth-Values: {{Cookie-Auth}}
+  x-functions-key: {{DevKey}}
+  transaction-id: 1
+}
+
+body:graphql {
+  query getEncryptedDocumentId($documentId: ID!) {
+    getEncryptedDocumentId(documentId: $documentId) {
+      id
+      encryptedDocumentId
+    }
+  }
+  
+  
+  
+  
+}
+
+body:graphql:vars {
+  {
+    "documentId": 3399802
+  }
+}
+
+script:post-response {
+  let responseData = res.getBody();
+  
+  if (responseData.data.getEncryptedDocumentId.encryptedDocumentId) {
+      bru.setGlobalEnvVar("encryptedDocumentId", responseData.data.getEncryptedDocumentId.encryptedDocumentId);
+      console.log("encryptedDocumentId:", responseData.data.getEncryptedDocumentId.encryptedDocumentId);
+  } else {
+      console.log("No encryptedDocumentId found");
+  }
+}
+
+settings {
+  encodeUrl: true
+}

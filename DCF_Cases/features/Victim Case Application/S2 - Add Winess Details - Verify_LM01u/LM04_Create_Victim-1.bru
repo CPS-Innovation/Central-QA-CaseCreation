@@ -1,0 +1,117 @@
+meta {
+  name: LM04_Create_Victim-1
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/inbound-json
+  body: json
+  auth: inherit
+}
+
+headers {
+  session-id: 672da61b-10d8-4588-9add-3a59311efc79
+}
+
+body:json {
+  {
+      "WitnessOrVictim": {
+          "CaseId": "{{CaseID}}",
+          "ItemId": "{{LM04WitnessItemId}}",
+          "PTIURN": {
+              "Force": "25",
+              "Unit": "GD",
+              "Number": "{{PTIURNNumber}}",
+              "Year": "25",
+              "Split": null
+          },
+          "UpdateStatus": {
+              "VersionId": "1",
+              "UpdateReasonType": "Create",
+              "UpdateReason": "Need to create witness"
+          },
+          "VictimWitness": {
+              "Person": {
+                  "UniqueId": "{{VictimRef_1}}",
+                  "Name": {
+                      "Title": null,
+                      "GivenName": [
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "JamesVictimFirstName"
+                          },
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "JamesVictimMiddleName"
+                          }
+                      ],
+                      "RequestedName": null,
+                      "FamilyName": {
+                          "Value": "JamesVictimSurname"
+                      }
+                  },
+                  "ContactDetails": {
+                      "Address": null,
+                      "ContactNumber": null,
+                      "Email": null,
+                      "DXAddress": null,
+                      "SocialMedia": null,
+                      "ContactPreferences": null
+                  },
+                  "PNCId": null,
+                  "DateOfBirth": null,
+                  "Nationality": null,
+                  "AlternativeContact": null,
+                  "Occupation": null,
+                  "PersonClassification": [
+                      {
+                          "ClassificationType": "StatusInformation",
+                          "ClassificationCode": "KeyWitness",
+                          "ClassificationValue": {
+                              "ClassificationValueText": "Y"
+                          }
+                      }
+                  ]
+              },
+  			"TypeOfPerson": "VictimWitness",
+  			"DateOfBirth": "1970-08-03",
+              "WitnessAndVictim":{
+  			    "Witness": {
+  				"Occupation": "Civillian"
+  			    },
+                  "Victim": {
+  				    "dummy": "Head"
+  			    }
+              },
+              "LinkedSuspects": null
+          }
+      }
+  }
+}
+
+script:pre-request {
+  console.log("CaseId:", bru.getGlobalEnvVar("CaseID"));
+  console.log("PTIURNNumber:", bru.getGlobalEnvVar("PTIURNNumber"));
+  console.log("CaseUrn:", bru.getGlobalEnvVar("CaseUrn"));
+  console.log("WitnessRef_1:", bru.getGlobalEnvVar("WitnessRef_1"));
+  
+  function generateUppercaseAlphaNumeric(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+  }
+  
+  let lm04VicWit = generateUppercaseAlphaNumeric(12);
+  
+  bru.setGlobalEnvVar("LM04WitnessItemId", lm04VicWit);
+  
+  
+}
+
+settings {
+  encodeUrl: true
+}

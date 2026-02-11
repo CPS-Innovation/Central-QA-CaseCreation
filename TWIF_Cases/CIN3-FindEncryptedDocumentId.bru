@@ -1,0 +1,53 @@
+meta {
+  name: CIN3-FindEncryptedDocumentId
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: {{CIN3-baseUrl}}/graphql
+  body: graphql
+  auth: inherit
+}
+
+headers {
+  cms-api-version: 1
+  cms-api-sessionid: {{CIN3-Staging-Token}}
+  Cms-Auth-Values: {{CIN3-Staging-Cookie-Auth}}
+  x-functions-key: {{StagingKey}}
+  transaction-id: 1
+}
+
+body:graphql {
+  query getEncryptedDocumentId($documentId: ID!) {
+    getEncryptedDocumentId(documentId: $documentId) {
+      id
+      encryptedDocumentId
+    }
+  }
+  
+  
+  
+  
+}
+
+body:graphql:vars {
+  {
+    "documentId": 8110473
+  }
+}
+
+script:post-response {
+  let responseData = res.getBody();
+  
+  if (responseData.data.getEncryptedDocumentId.encryptedDocumentId) {
+      bru.setGlobalEnvVar("cin3encryptedDocumentId", responseData.data.getEncryptedDocumentId.encryptedDocumentId);
+      console.log("cin3encryptedDocumentId:", responseData.data.getEncryptedDocumentId.encryptedDocumentId);
+  } else {
+      console.log("No encryptedDocumentId found");
+  }
+}
+
+settings {
+  encodeUrl: true
+}

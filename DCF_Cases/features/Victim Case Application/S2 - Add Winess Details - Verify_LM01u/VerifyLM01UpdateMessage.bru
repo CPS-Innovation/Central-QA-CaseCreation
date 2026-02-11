@@ -1,0 +1,20 @@
+meta {
+  name: VerifyLM01UpdateMessage
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{baseURL}}/doc-fetch/{{encryptedDocumentId}}/dcf-msg2.xml
+  body: json
+  auth: none
+}
+
+headers {
+  session-id: {{Token}}
+  transaction-id: 1
+}
+
+settings {
+  encodeUrl: true
+}

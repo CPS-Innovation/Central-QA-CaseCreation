@@ -1,0 +1,136 @@
+meta {
+  name: LM04_Create_Victim
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/inbound-json
+  body: json
+  auth: inherit
+}
+
+headers {
+  session-id: 672da61b-10d8-4588-9add-3a59311efc79
+}
+
+body:json {
+  {
+      "WitnessOrVictim": {
+          "CaseId": "{{CaseID}}",
+          "ItemId": "{{LM04VictimitemId}}",
+          "PTIURN": {
+              "Force": "11",
+              "Unit": "UN",
+              "Number": "{{PTIURNNumber}}",
+              "Year": "25",
+              "Split": null
+          },
+          "UpdateStatus": {
+              "VersionId": "1",
+              "UpdateReasonType": "Create",
+              "UpdateReason": "Need to create victim (also witness)"
+          },
+          "VictimWitness": {
+              "Person": {
+                  "UniqueId": "{{VictimRef_1}}",
+                  "Name": {
+                      "Title": "DR",
+                      "GivenName": [
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "VictimFirstname"
+                          },
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": null
+                          }
+                      ],
+                      "RequestedName": null,
+                      "FamilyName": {
+                          "Value": "VictimSurname"
+                      }
+                  },
+                  "ContactDetails": {
+                      "Address": {
+                          "AddressLine": [
+                              "Victim AddressLine1",
+                              "Victim AddressLine2",
+                              "Victim AddressLine3",
+                              "Victim AddressLine4"
+                          ],
+                          "Postcode": "VA1 1PC",
+                          "Country": "UK"
+                      },
+                      "ContactNumber": [
+                          {
+                              "Number": {
+                                  "TelCountryCode": "44",
+                                  "TelNationalNumber": "07222222222"
+                              },
+                              "TypeOfNumber": "mobile"
+                          }
+                      ],
+                      "Email": "victim_witness@email.com",
+                      "DXAddress": null,
+                      "SocialMedia": null,
+                      "ContactPreferences": {
+                          "PreferredMethod": "In person",
+                          "TimesToAvoid": "None"
+                      }
+                  },
+                  "PNCId": null,
+                  "DateOfBirth": "2003-07-01",
+                  "Nationality": "England",
+                  "AlternativeContact": null,
+                  "Occupation": "Victim Occupation",
+                  "PersonClassification": [
+                      {
+                          "ClassificationType": "StatusInformation",
+                          "ClassificationCode": "ACROConvictions",
+                          "ClassificationValue": {
+                              "ClassificationValueText": "NA"
+                          }
+                      }
+                  ]
+              },
+              "TypeOfPerson": "Victim",
+              "Victim": {
+                  "OffenceId": [
+                      "{{CaseOffenceId}}"
+                  ],
+                  "VPSStatus": {
+                      "ResponseToVPSOffer": "Declined",
+                      "SchemeExplained": true
+                  }
+              },
+              "LinkedSuspects": null
+          }
+      }
+  }
+}
+
+script:pre-request {
+  console.log("CaseId:", bru.getGlobalEnvVar("CaseID"));
+  console.log("URN:", bru.getGlobalEnvVar("URN"));
+  console.log("VictimRef_1:", bru.getGlobalEnvVar("VictimRef_1"));
+  console.log("CaseOffenceId:", bru.getGlobalEnvVar("CaseOffenceId"));
+  
+  
+  function generateUppercaseAlphaNumeric(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+  }
+  
+  let lm04 = generateUppercaseAlphaNumeric(12);
+  
+  bru.setGlobalEnvVar("LM04VictimitemId", lm04);
+}
+
+settings {
+  encodeUrl: true
+}

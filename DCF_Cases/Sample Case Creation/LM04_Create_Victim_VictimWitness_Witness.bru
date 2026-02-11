@@ -1,0 +1,235 @@
+meta {
+  name: LM04_Create_Victim_VictimWitness_Witness
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseURL}}/inbound-json
+  body: json
+  auth: inherit
+}
+
+headers {
+  session-id: 672da61b-10d8-4588-9add-3a59311efc79
+}
+
+body:json {
+  {
+      "WitnessOrVictim": {
+          "CaseId": "{{CaseID}}",
+          "ItemId": "{{LM04VictimitemId}}",
+          "PTIURN": {
+              "Force": "11",
+              "Unit": "UN",
+              "Number": "{{PTIURNNumber}}",
+              "Year": "25",
+              "Split": null
+          },
+          "UpdateStatus": {
+              "VersionId": "1",
+              "UpdateReasonType": "Create",
+              "UpdateReason": "Need to create victim (also witness)"
+          },
+          "VictimWitness": [{
+              "Person": {
+                  "UniqueId": "{{VictimRef_1}}",
+                  "Name": {
+                      "Title": "DR",
+                      "GivenName": [
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "VictimFirstname"
+                          },
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "VictimMiddlename"
+                          }
+                      ],
+                      "RequestedName": null,
+                      "FamilyName": {
+                          "Value": "VictimSurname"
+                      }
+                  },
+                  "ContactDetails": {
+                      "Address": {
+                          "AddressLine": [
+                              "Victim AddressLine1",
+                              "Victim AddressLine2",
+                              "Victim AddressLine3",
+                              "Victim AddressLine4"
+                          ],
+                          "Postcode": "VA1 1PC",
+                          "Country": "UK"
+                      },
+                      "ContactNumber": [
+                          {
+                              "Number": {
+                                  "TelCountryCode": "44",
+                                  "TelNationalNumber": "07222222222"
+                              },
+                              "TypeOfNumber": "mobile"
+                          }
+                      ],
+                      "Email": "victim_witness@email.com",
+                      "DXAddress": null,
+                      "SocialMedia": null,
+                      "ContactPreferences": {
+                          "PreferredMethod": "In person",
+                          "TimesToAvoid": "None"
+                      }
+                  },
+                  "PNCId": null,
+                  "DateOfBirth": "2003-07-01",
+                  "Nationality": "England",
+                  "AlternativeContact": null,
+                  "Occupation": "Victim Occupation",
+                  "PersonClassification": [
+                      {
+                          "ClassificationType": "StatusInformation",
+                          "ClassificationCode": "ACROConvictions",
+                          "ClassificationValue": {
+                              "ClassificationValueText": "NA"
+                          }
+                      }
+                  ]
+              },			
+              "TypeOfPerson": "Victim",
+              "Victim": {
+                  "OffenceId": [
+                      "{{CaseOffenceId}}"
+                  ],
+                  "VPSStatus": {
+                      "ResponseToVPSOffer": "Declined",
+                      "SchemeExplained": true
+                  }
+              },
+  						
+              "LinkedSuspects": null
+          },
+  			
+          {
+              "Person": {
+                  "UniqueId": "{{VictimWitnessRef_1}}",
+                  "Name": {
+                      "Title": "DR",
+                      "GivenName": [
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "VictimWitnessFirstname"
+                          },
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": null
+                          }
+                      ],
+                      "RequestedName": null,
+                      "FamilyName": {
+                          "Value": "VictimWitnessSurname"
+                      }
+                  },
+                  "ContactDetails": {
+                      "Address": {
+                          "AddressLine": [
+                              "VW AddressLine1",
+                              "VW AddressLine2",
+                              "VW AddressLine3",
+                              "VW AddressLine4"
+                          ],
+                          "Postcode": "VW1 1PC",
+                          "Country": "UK"
+                      },
+                      "ContactNumber": [
+                          {
+                              "Number": {
+                                  "TelCountryCode": "44",
+                                  "TelNationalNumber": "07333333333"
+                              },
+                              "TypeOfNumber": "mobile"
+                          }
+                      ],
+                      "Email": "victimWitness@email.co.uk",
+                      "DXAddress": null,
+                      "SocialMedia": null,
+                      "ContactPreferences": {
+                          "PreferredMethod": "In person",
+                          "TimesToAvoid": "None"
+                      }
+                  },
+                  "PNCId": null,
+                  "DateOfBirth": "2003-07-01",
+                  "Nationality": "England",
+                  "AlternativeContact": null,
+                  "Occupation": "VicWitOccupation",
+                  "PersonClassification": [
+                      {
+                          "ClassificationType": "StatusInformation",
+                          "ClassificationCode": "ACROConvictions",
+                          "ClassificationValue": {
+                              "ClassificationValueText": "NA"
+                          }
+                      },
+                                          {
+                          "ClassificationType": "StatusInformation",
+                          "ClassificationCode": "KeyWitness",
+                          "ClassificationValue": {
+                              "ClassificationValueText": "Y"
+                          }
+                      }
+                  ]
+              },
+  				"TypeOfPerson": "VictimWitness",
+  				"WitnessAndVictim": {
+  				"Witness": {
+  				"Officer": null,
+  				"WitnessNeeds": {
+  						"SpecialMeasuresRequested": null,
+  						"DetailsOfMeasures": null,
+  						"DetailsOfNeeds": null,
+  						"MeetingRequired": false,
+  						"RemoteVideoLink": null,
+  						"ApplyForReportingRestrictions": false
+  					},
+  				"WarnedByPolice": true,
+  				"AvailabilityToAttendCourt": null
+  				},
+  			"Victim": {
+  			"OffenceId": [ 	"{{CaseOffenceId}}" ],
+  			"VPSStatus": {
+              "ResponseToVPSOffer": "Declined",
+              "SchemeExplained": true
+            }
+           }
+          },
+  	  			
+              "LinkedSuspects": null
+          }   
+  	]
+  	
+      }
+  	
+  }
+}
+
+script:pre-request {
+  console.log("CaseId:", bru.getGlobalEnvVar("CaseID"));
+  console.log("CaseId:", bru.getGlobalEnvVar("VictimRef_1"));
+  
+  
+  function generateUppercaseAlphaNumeric(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+  }
+  
+  let lm04 = generateUppercaseAlphaNumeric(12);
+  
+  bru.setGlobalEnvVar("LM04VictimitemId", lm04);
+}
+
+settings {
+  encodeUrl: true
+}

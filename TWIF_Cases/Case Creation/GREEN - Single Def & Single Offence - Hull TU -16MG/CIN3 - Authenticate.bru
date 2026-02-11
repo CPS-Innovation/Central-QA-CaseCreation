@@ -1,0 +1,42 @@
+meta {
+  name: CIN3 - Authenticate
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{StagingUrl}}/api/authenticate
+  body: formUrlEncoded
+  auth: inherit
+}
+
+headers {
+  accept: application/json
+  x-functions-key: {{StagingKey}}
+}
+
+body:form-urlencoded {
+  username: {{CIN3_UserName}}
+  password: {{CIN3_Password}}
+}
+
+script:post-response {
+  const response = res.getBody();
+   
+  bru.setEnvVar("CIN3-Staging-Cookie-Auth", JSON.stringify(response));
+   
+  console.log('environment variables set:', response);
+  
+  if (response.Token) {
+      bru.setGlobalEnvVar("CIN3-Staging-Token", response.Token);
+      console.log("CIN3-Staging-Token:", response.Token);
+  } else {
+      console.log("No Token");
+  }
+  
+  
+}
+
+settings {
+  encodeUrl: true
+}

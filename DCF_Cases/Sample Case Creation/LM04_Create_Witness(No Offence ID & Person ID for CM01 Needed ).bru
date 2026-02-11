@@ -1,0 +1,136 @@
+meta {
+  name: LM04_Create_Witness(No Offence ID & Person ID for CM01 Needed )
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseURL}}/inbound-json
+  body: json
+  auth: inherit
+}
+
+headers {
+  session-id: 672da61b-10d8-4588-9add-3a59311efc79
+  ~transaction-id: d63ea439-adae-4503-9d54-366650b4216b
+  ~cms-api-version: 1
+}
+
+body:json {
+  {
+      "WitnessOrVictim": {
+          "CaseId": "{{CaseID}}",
+          "ItemId": "{{LM04WitnessItemId}}",
+          "PTIURN": {
+              "Force": "11",
+              "Unit": "UN",
+              "Number": "{{PTIURNNumber}}",
+              "Year": "25",
+              "Split": null
+          },
+          "UpdateStatus": {
+              "VersionId": "1",
+              "UpdateReasonType": "Create",
+              "UpdateReason": "Need to create witness"
+          },
+          "VictimWitness": {
+              "Person": {
+                  "UniqueId": "{{witnessRef_1}}",
+                  "Name": {
+                      "Title": "Mr",
+                      "GivenName": [
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "WitnessFirstName"
+                          },
+                          {
+                              "NameSequenceSpecified": false,
+                              "Value": "WitnessMiddlename"
+                          }
+                      ],
+                      "RequestedName": null,
+                      "FamilyName": {
+                          "Value": "WitnessSurname"
+                      }
+                  },
+                  "ContactDetails": {
+                      "Address": {
+                          "AddressLine": [
+                              "Witness AddressLine1",
+                              "Witness AddressLine2",
+                              "Witness AddressLine3",
+                              "Witness AddressLine4"
+                          ],
+                          "Postcode": "WT1 1PC",
+                          "Country": "UK"
+                      },
+                      "ContactNumber": [
+                          {
+                              "Number": {
+                                  "TelCountryCode": "44",
+                                  "TelNationalNumber": "0744444444"
+                              },
+                              "TypeOfNumber": "mobile"
+                          }
+                      ],
+                      "Email": "witness@email.co.uk",
+                      "DXAddress": null,
+                      "SocialMedia": null,
+                      "ContactPreferences": {
+                          "PreferredMethod": "In person",
+                          "TimesToAvoid": "None"
+                      }
+                  },
+                  "PNCId": null,
+                  "DateOfBirth": "2003-07-01",
+                  "Nationality": "England",
+                  "AlternativeContact": null,
+                  "Occupation": "Catering Waitress",
+                  "PersonClassification": [
+                      {
+                          "ClassificationType": "StatusInformation",
+                          "ClassificationCode": "KeyWitness",
+                          "ClassificationValue": {
+                              "ClassificationValueText": "Y"
+                          }
+                      }
+                  ]
+              },
+              "TypeOfPerson": "Witness",
+              "Witness": {
+                  "Officer": null,
+                  "WitnessNeeds": null,
+                  "WarnedByPolice": false,
+                  "AvailabilityToAttendCourt": null
+              },
+              "LinkedSuspects": null
+          }
+      }
+  }
+}
+
+script:pre-request {
+  console.log("CaseId:", bru.getGlobalEnvVar("CaseID"));
+  console.log("PTIURNNumber:", bru.getGlobalEnvVar("PTIURNNumber"));
+  console.log("URN:", bru.getGlobalEnvVar("URN"));
+  
+  function generateUppercaseAlphaNumeric(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+  }
+  
+  let lm04VicWit = generateUppercaseAlphaNumeric(12);
+  let witnessRef = generateUppercaseAlphaNumeric(12);
+  
+  bru.setGlobalEnvVar("LM04WitnessItemId", lm04VicWit);
+  bru.setGlobalEnvVar("witnessRef_1", witnessRef);
+  
+}
+
+settings {
+  encodeUrl: true
+}
