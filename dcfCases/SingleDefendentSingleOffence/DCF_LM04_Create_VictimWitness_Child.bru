@@ -1,7 +1,7 @@
 meta {
-  name: DCF-LM04_Create_Witness-Police
+  name: DCF_LM04_Create_VictimWitness_Child
   type: http
-  seq: 7
+  seq: 3
 }
 
 post {
@@ -20,7 +20,7 @@ body:json {
   {
     "WitnessOrVictim": {
       "CaseId": "{{DCFCaseID}}",
-      "ItemId": "{{WitnessPoliceLM04ItemId}}",
+      "ItemId": "{{VictimChildLM04ItemId}}",
       "PTIURN": {
         "Force": "{{DCFforceNo}}",
         "Unit": "{{DCFunit}}",
@@ -35,9 +35,9 @@ body:json {
       },
       "VictimWitness": {
         "Person": {
-          "UniqueId": "{{Witness_Police}}",
+          "UniqueId": "{{Victim_Child}}",
           "Name": {
-            "Title": null,
+            "Title": "{{$randomNamePrefix}}",
             "GivenName": [
               {
                 "NameSequenceSpecified": false,
@@ -64,30 +64,29 @@ body:json {
           "Occupation": null,
           "PersonClassification": [
             {
-              "ClassificationType": "StatusInformation",
-              "ClassificationCode": "KeyWitness",
-              "ClassificationValue": {
-                "ClassificationValueText": "Y"
-              }
-            },
-            {
               "ClassificationType": "TypeOfWitness",
-              "ClassificationCode": "P",
+              "ClassificationCode": "C",
               "ClassificationValue": {
                 "ClassificationValueFlag": true
               }
             }
           ]
         },
-        "TypeOfPerson": "Witness",
-        "Witness": {
-          "Officer": {
-            "PoliceOfficerRank": "Constable",
-            "ShoulderNumber": "{{ConstableShoulderNo}}"
+        "TypeOfPerson": "VictimWitness",
+        "DateOfBirth": "2012-08-03",
+        "WitnessAndVictim": {
+          "Witness": {
+            "Occupation": "Student"
           },
-          "WitnessNeeds": null,
-          "WarnedByPolice": false,
-          "AvailabilityToAttendCourt": null
+          "Victim": {
+            "XOffenceId": [
+              "{{CaseOffenceId}}"
+            ],
+            "VPSStatus": {
+              "ResponseToVPSOffer": "Accepted",
+              "SchemeExplained": false
+            }
+          }
         },
         "LinkedSuspects": null
       }
@@ -98,9 +97,8 @@ body:json {
 script:pre-request {
   console.log("DCFCaseID:", bru.getGlobalEnvVar("DCFCaseID"));
   console.log("DCFCaseUrn:", bru.getGlobalEnvVar("DCFCaseUrn"));
-  console.log("Witness_Police:", bru.getGlobalEnvVar("Witness_Police"));
+  console.log("Victim_Child:", bru.getGlobalEnvVar("Victim_Child"));
   console.log("CaseOffenceId:", bru.getGlobalEnvVar("CaseOffenceId"));
-  console.log("ConstableShoulderNo:", bru.getGlobalEnvVar("ConstableShoulderNo"));
   
   console.log("DCFptnNo:", bru.getGlobalEnvVar("DCFptnNo"));
   console.log("DCFforceNo:", bru.getGlobalEnvVar("DCFforceNo"));
@@ -117,9 +115,9 @@ script:pre-request {
       return result;
   }
   
-  let lm04Witness = generateUppercaseAlphaNumeric(12);
+  let lm04VicWit = generateUppercaseAlphaNumeric(12);
   
-  bru.setGlobalEnvVar("WitnessPoliceLM04ItemId", lm04Witness);
+  bru.setGlobalEnvVar("VictimChildLM04ItemId", lm04VicWit);
 }
 
 settings {

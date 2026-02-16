@@ -1,7 +1,7 @@
 meta {
-  name: DCF-LM04_Create_Witness-Vulnerable
+  name: DCF_LM04_Create_Witness_Intimidated
   type: http
-  seq: 9
+  seq: 10
 }
 
 post {
@@ -20,7 +20,7 @@ body:json {
   {
     "WitnessOrVictim": {
       "CaseId": "{{DCFCaseID}}",
-      "ItemId": "{{WitnessVulnerableLM04ItemId}}",
+      "ItemId": "{{WitnessIntimidatedLM04ItemId}}",
       "PTIURN": {
         "Force": "{{DCFforceNo}}",
         "Unit": "{{DCFunit}}",
@@ -35,7 +35,7 @@ body:json {
       },
       "VictimWitness": {
         "Person": {
-          "UniqueId": "{{Witness_Vulnerable}}",
+          "UniqueId": "{{Witness_Intimidated}}",
           "Name": {
             "Title": null,
             "GivenName": [
@@ -72,7 +72,7 @@ body:json {
             },
             {
               "ClassificationType": "TypeOfWitness",
-              "ClassificationCode": "L",
+              "ClassificationCode": "T",
               "ClassificationValue": {
                 "ClassificationValueFlag": true
               }
@@ -97,7 +97,7 @@ body:json {
 script:pre-request {
   console.log("DCFCaseID:", bru.getGlobalEnvVar("DCFCaseID"));
   console.log("DCFCaseUrn:", bru.getGlobalEnvVar("DCFCaseUrn"));
-  console.log("Witness_Vulnerable:", bru.getGlobalEnvVar("Witness_Vulnerable"));
+  console.log("Witness_Intimidated:", bru.getGlobalEnvVar("Witness_Intimidated"));
   console.log("CaseOffenceId:", bru.getGlobalEnvVar("CaseOffenceId"));
   
   console.log("DCFptnNo:", bru.getGlobalEnvVar("DCFptnNo"));
@@ -117,7 +117,7 @@ script:pre-request {
   
   let lm04Witness = generateUppercaseAlphaNumeric(12);
   
-  bru.setGlobalEnvVar("WitnessVulnerableLM04ItemId", lm04Witness);
+  bru.setGlobalEnvVar("WitnessIntimidatedLM04ItemId", lm04Witness);
 }
 
 settings {

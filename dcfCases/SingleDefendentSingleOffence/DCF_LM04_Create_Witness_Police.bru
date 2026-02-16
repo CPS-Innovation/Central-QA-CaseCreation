@@ -1,7 +1,7 @@
 meta {
-  name: DCF-LM04_Create_Witness-Child
+  name: DCF_LM04_Create_Witness_Police
   type: http
-  seq: 8
+  seq: 7
 }
 
 post {
@@ -20,7 +20,7 @@ body:json {
   {
     "WitnessOrVictim": {
       "CaseId": "{{DCFCaseID}}",
-      "ItemId": "{{WitnessChildLM04ItemId}}",
+      "ItemId": "{{WitnessPoliceLM04ItemId}}",
       "PTIURN": {
         "Force": "{{DCFforceNo}}",
         "Unit": "{{DCFunit}}",
@@ -35,7 +35,7 @@ body:json {
       },
       "VictimWitness": {
         "Person": {
-          "UniqueId": "{{Witness_Child}}",
+          "UniqueId": "{{Witness_Police}}",
           "Name": {
             "Title": null,
             "GivenName": [
@@ -72,7 +72,7 @@ body:json {
             },
             {
               "ClassificationType": "TypeOfWitness",
-              "ClassificationCode": "C",
+              "ClassificationCode": "P",
               "ClassificationValue": {
                 "ClassificationValueFlag": true
               }
@@ -80,10 +80,11 @@ body:json {
           ]
         },
         "TypeOfPerson": "Witness",
-        "DateOfBirth": "2012-08-03",
         "Witness": {
-          "Occupation": "Student",
-          "Officer": null,
+          "Officer": {
+            "PoliceOfficerRank": "Constable",
+            "ShoulderNumber": "{{ConstableShoulderNo}}"
+          },
           "WitnessNeeds": null,
           "WarnedByPolice": false,
           "AvailabilityToAttendCourt": null
@@ -97,8 +98,9 @@ body:json {
 script:pre-request {
   console.log("DCFCaseID:", bru.getGlobalEnvVar("DCFCaseID"));
   console.log("DCFCaseUrn:", bru.getGlobalEnvVar("DCFCaseUrn"));
-  console.log("Witness_Child:", bru.getGlobalEnvVar("Witness_Child"));
+  console.log("Witness_Police:", bru.getGlobalEnvVar("Witness_Police"));
   console.log("CaseOffenceId:", bru.getGlobalEnvVar("CaseOffenceId"));
+  console.log("ConstableShoulderNo:", bru.getGlobalEnvVar("ConstableShoulderNo"));
   
   console.log("DCFptnNo:", bru.getGlobalEnvVar("DCFptnNo"));
   console.log("DCFforceNo:", bru.getGlobalEnvVar("DCFforceNo"));
@@ -117,7 +119,7 @@ script:pre-request {
   
   let lm04Witness = generateUppercaseAlphaNumeric(12);
   
-  bru.setGlobalEnvVar("WitnessChildLM04ItemId", lm04Witness);
+  bru.setGlobalEnvVar("WitnessPoliceLM04ItemId", lm04Witness);
 }
 
 settings {
